@@ -12,7 +12,7 @@ class CreateListingForm(ModelForm):
             'category': forms.Select(attrs={'class': 'form-control'}),
             'photo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'photo_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'deadline': forms.DateTimeInput(attrs={'class': 'form-control'}),
+            'deadline': forms.DateTimeInput(attrs={'class': 'form-control', 'placeholder':'%Y-%m-%D %H:%M:%S','input_formats':['%Y-%M-%D %H:%M:%S'] }),
             'starting_bid': forms.NumberInput(attrs={'class': 'form-control'})
         }
 

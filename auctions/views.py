@@ -21,7 +21,7 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("auctions:index"))
         else:
             return render(request, "auctions/login.html", {
                 "message": "Invalid username and/or password."
@@ -66,13 +66,14 @@ def listing_view(request):
 
 def create_listing(request):
     if request.method == "POST":
-        form = CreateListingForm(request.POST)
+        form = CreateListingForm(request.POST, request.FILES)
         if form.is_valid():
             listing = form.save(commit=False)
             listing.seller = request.user
             listing.save()
             return HttpResponseRedirect(reverse("auctions:index"))
         else:
+            # return HttpResponseRedirect(reverse("auctions:create_listing"))
             return render(request, "auctions/create.html", {
                 "form":form
             })
