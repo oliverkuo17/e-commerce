@@ -3,9 +3,8 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-
-from .models import User
-
+from .forms import *
+from .models import User, Listing, Comment, Bid
 
 def index(request):
     return render(request, "auctions/index.html")
@@ -33,7 +32,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("auctions:index"))
 
 
 def register(request):
@@ -58,9 +57,25 @@ def register(request):
                 "message": "Username already taken."
             })
         login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("auctions:index"))
     else:
         return render(request, "auctions/register.html")
 
 def listing_view(request):
     pass
+
+def create_listing(request):
+    if request.method == "POST":
+        form = CreateListingForm(request.POST)
+        if form.is_valid():
+            listing = form.save(commit=False)
+            listing.seller = request.user
+            listing.save()
+            return HttpResponseRedirect(reverse("auctions:index"))
+        else:
+            return render(request, "auctions/create.html", {
+                "form":form
+            })
+    return render(request, "auctions/create.html", {
+        "form": CreateListingForm()
+    })
