@@ -3,15 +3,15 @@
 {% block body %}
 
     <h2>Create Listing</h2>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <form action="{% url 'auctions:create_listing' %}" method="post"  enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type=submit value="Upload">
+            </form>
+        </div>
+    </div>
 
-    {% if message %}
-        <div>{{ message }}</div>
-    {% endif %}
-
-    <form action="{% url 'auctions:create_listing' %}" method="post"  enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_table }}
-        <input type=submit value="Upload">
-    </form>
 
 {% endblock %}
