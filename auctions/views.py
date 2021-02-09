@@ -1,13 +1,15 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 from .forms import *
 from .models import User, Listing, Comment, Bid
 
 def index(request):
-    return render(request, "auctions/index.html")
+    return render(request, "auctions/index.html", {
+        "active_listings": Listing.objects.filter(active=True)
+    })
 
 
 def login_view(request):
@@ -61,8 +63,21 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
-def listing_view(request):
-    pass
+def listing_view(request, listing_id):
+    try:
+        listing = Listing.objects.get(pk=listing_id)
+    except Listing.DoesNotExist:
+        raise Http404("Listing does not exist")
+    return render(request, "auctions/listing.html", {
+            "seller": listing.item_name,
+            "item_name": listing.description,
+            "description": listing.starting_bid,
+            "category": listing.current_bid,
+            "photo": listing.seller,
+            "deadline": listing.seller,
+            "starting_bid": listing.seller,
+            "current_bid": listing.seller,
+        })
 
 def create_listing(request):
     if request.method == "POST":

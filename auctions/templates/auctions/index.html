@@ -2,6 +2,19 @@
 
 {% block body %}
     <h2>Active Listings</h2>
+    <div class="row">
+        {% for active_listing in active_listings %}
+            <div class="col-md-4">
+                <li><a href="/listings/{{ active_listing.id }}" target="_blank">{{ active_listing.item_name }}</a></li>
+                {% if active_listing.current_bid %}
+                    <div>current bid: ${{ active_listing.current_bid }}</div>
+                {% else %}
+                    <div>current bid: ${{ active_listing.starting_bid }}</div>
+                {% endif %}
+                <p><img src="{{ active_listing.photo.url }}" width="250px" height="250px"></p>
+            </div>
+        {% endfor %}
+    </div>
 
-    TODO
+
 {% endblock %}
