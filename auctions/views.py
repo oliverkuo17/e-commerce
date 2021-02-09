@@ -69,14 +69,14 @@ def listing_view(request, listing_id):
     except Listing.DoesNotExist:
         raise Http404("Listing does not exist")
     return render(request, "auctions/listing.html", {
-            "seller": listing.item_name,
-            "item_name": listing.description,
-            "description": listing.starting_bid,
-            "category": listing.current_bid,
-            "photo": listing.seller,
-            "deadline": listing.seller,
-            "starting_bid": listing.seller,
-            "current_bid": listing.seller,
+            "seller": str(listing.seller).capitalize(),
+            "item_name": listing.item_name,
+            "description": listing.description,
+            "category": listing.category,
+            "photo": listing.photo,
+            "deadline": listing.deadline,
+            "starting_bid": listing.starting_bid,
+            "current_bid": listing.current_bid,
         })
 
 def create_listing(request):

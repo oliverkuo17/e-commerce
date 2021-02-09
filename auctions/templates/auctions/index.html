@@ -5,13 +5,17 @@
     <div class="row">
         {% for active_listing in active_listings %}
             <div class="col-md-4">
-                <li><a href="/listings/{{ active_listing.id }}" target="_blank">{{ active_listing.item_name }}</a></li>
-                {% if active_listing.current_bid %}
-                    <div>current bid: ${{ active_listing.current_bid }}</div>
-                {% else %}
-                    <div>current bid: ${{ active_listing.starting_bid }}</div>
-                {% endif %}
+                <div class='listing-index-container' style="display: flex;">
+                    <li><a href="/listings/{{ active_listing.id }}" target="_blank">{{ active_listing.item_name }}</a></li>
+                    {% if active_listing.current_bid %}
+                        <div style="margin-left: 15px;">current bid: ${{ active_listing.current_bid }}</div>
+                    {% else %}
+                        <div style="margin-left: 15px;">current bid: ${{ active_listing.starting_bid }}</div>
+                    {% endif %}
+                </div>
+
                 <p><img src="{{ active_listing.photo.url }}" width="250px" height="250px"></p>
+                <p>ends at: {{ active_listing.deadline }}</p>
             </div>
         {% endfor %}
     </div>

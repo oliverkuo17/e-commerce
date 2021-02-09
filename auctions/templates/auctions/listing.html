@@ -2,7 +2,33 @@
 
 {% block body %}
 
-    <h2>Listing: {{ listing.item_name }}</h2>
+    <h2>{{ item_name }}</h2>
+    <div class="listing-container">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-5">
+                <p><img src="{{ photo.url }}" width="500px" height="500px"></p>
+            </div>
+            <div class="col">
+                <h4>Description:</h4>
+                <div style="width:200px; height:200px">
+                    <p>{{ description }}</p>
+                </div>
+                <h4>Details:</h4>
+                <ul>
+                    <li>Category: {{ category }}</li>
+                    <li>Seller: {{ seller }}</li>
+                    <li>
+                        {% if current_bid %}
+                            Current bid: {{ current_bid }} AUD
+                        {% else %}
+                            Current bid: {{ starting_bid }} AUD
+                        {% endif %}
+                    </li>
+                    <li>Ends at: {{ deadline }}</li>
+                </ul>
+            </div>
+        </div>
 
 
 

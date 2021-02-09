@@ -12,22 +12,22 @@ class User(AbstractUser):
 
 class Listing(models.Model):
     CATEGORY_CHOICES = (
-        ("ELE", "Electronics"),
-        ("MOT", "Motors"),
-        ("HnG", "Home & Garden" ),
-        ("CnA", "Clothing & Accessories"),
-        ("SPO", "Sports"),
-        ("HnB", "Health & Beauty"),
-        ("TOY", "Toys"),
-        ("BnI", "Business & Industrial"),
-        ("FnG", "Food & Grocery"),
-        ("OTH", "Others")
+        ("Electronics", "Electronics"),
+        ("Motors", "Motors"),
+        ("Home & Garden", "Home & Garden" ),
+        ("Clothing & Accessories", "Clothing & Accessories"),
+        ("Sports", "Sports"),
+        ("Health & Beauty", "Health & Beauty"),
+        ("Toys", "Toys"),
+        ("Business & Industrial", "Business & Industrial"),
+        ("Food & Grocery", "Food & Grocery"),
+        ("Others", "Others")
     )
 
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
     item_name = models.CharField(max_length=64)
     description = models.TextField(max_length=2048)
-    category = models.CharField(max_length=32, choices=CATEGORY_CHOICES, default='OTH')
+    category = models.CharField(max_length=32, choices=CATEGORY_CHOICES, default='Others')
     photo = models.ImageField(upload_to=user_directory_path)
     photo_name = models.CharField(max_length=64, null=True)
     active = models.BooleanField(default=True)
