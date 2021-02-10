@@ -45,4 +45,4 @@ class Comment(models.Model):
 class Bid(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bids")
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="bids")
-    amount = models.DecimalField(max_digits=9, decimal_places=2, validators=[MinValueValidator(('0.01'))])
+    amount = models.DecimalField(max_digits=9, decimal_places=2, validators=[MinValueValidator((0.01))])

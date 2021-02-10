@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+
 from .forms import *
-from .models import User, Listing, Comment, Bid
+from .models import Bid, Comment, Listing, User
+
 
 def index(request):
     return render(request, "auctions/index.html", {
@@ -68,7 +70,23 @@ def listing_view(request, listing_id):
         listing = Listing.objects.get(pk=listing_id)
     except Listing.DoesNotExist:
         raise Http404("Listing does not exist")
+    if request.method == "POST":
+        watcher = request.user
+        bid_form = CreateBidForm(request.POST)
+        if 'start_watching' in request.POST:
+            listing.watchers.add(watcher)
+        elif 'stop_watching' in request.POST:
+            listing.watchers.remove(watcher)
+        if 'amount' in request.POST:
+            if bid_form.is_valid():
+                bid = bid_form.save(commit=False)
+                bid.user = request.user
+                bid.listing = listing
+                bid.save()
+
+        return HttpResponseRedirect(reverse("auctions:listing", args=(listing.id,)))
     return render(request, "auctions/listing.html", {
+            "listing": listing,
             "seller": str(listing.seller).capitalize(),
             "item_name": listing.item_name,
             "description": listing.description,
@@ -77,6 +95,8 @@ def listing_view(request, listing_id):
             "deadline": listing.deadline,
             "starting_bid": listing.starting_bid,
             "current_bid": listing.current_bid,
+            "watchers": listing.watchers,
+            "bid_form": CreateBidForm()
         })
 
 def create_listing(request):
@@ -88,10 +108,12 @@ def create_listing(request):
             listing.save()
             return HttpResponseRedirect(reverse("auctions:index"))
         else:
-            # return HttpResponseRedirect(reverse("auctions:create_listing"))
             return render(request, "auctions/create.html", {
                 "form":form
             })
     return render(request, "auctions/create.html", {
         "form": CreateListingForm()
     })
+
+
+

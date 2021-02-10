@@ -2,29 +2,52 @@
 
 {% block body %}
 
-    <h2>{{ item_name }}</h2>
     <div class="listing-container">
         <div class="row">
             <div class="col-1"></div>
-            <div class="col-5">
-                <p><img src="{{ photo.url }}" width="500px" height="500px"></p>
+            <div class="col-4">
+                <div class="listing-left-top">
+                    <h1 clsas="display-4">{{ item_name }}</h1>
+                    <form action="#" method="post">
+                    {% csrf_token %}
+                    {% if user != listing.seller %}
+                        {% if user not in listing.watchers.all %}
+                            <input type="submit" name="start_watching" value="Add to Watchlist" style="background-color:mediumseagreen;border:none;color:ghostwhite">
+                        {% else%}
+                            <input type="submit" name="stop_watching" value="Remove from Watchlist" style="background-color:slategrey;border:none;color:ghostwhite">
+                        {% endif %}
+                    {% endif %}
+                    </form>
+                </div>
+                <p><img src="{{ photo.url }}" width="420px" height="420px"></p>
             </div>
             <div class="col">
-                <h4>Description:</h4>
-                <div style="width:200px; height:200px">
+                <div class="listing-left-top">
+                    <h1 clsas="display-4">
+                        {% if current_bid %}
+                            Current bid: {{ current_bid }} AUD
+                        {% else %}
+                            Current bid: {{ starting_bid }} AUD
+                        {% endif %}
+                    </h1>
+                    <div class="row">
+                        <div class="form-group col-md-5">
+                            <form action="#" method="post" style="display: flex;">
+                                {% csrf_token %}
+                                {{ bid_form }}
+                                <input type=submit value="Place bid" style="margin-left: 8px; background-color:royalblue ;color: ghostwhite;border:none;">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <h4 style="margin-top: 15px;">Description:</h4>
+                <div style="width:300px; height:200px">
                     <p>{{ description }}</p>
                 </div>
                 <h4>Details:</h4>
                 <ul>
                     <li>Category: {{ category }}</li>
                     <li>Seller: {{ seller }}</li>
-                    <li>
-                        {% if current_bid %}
-                            Current bid: {{ current_bid }} AUD
-                        {% else %}
-                            Current bid: {{ starting_bid }} AUD
-                        {% endif %}
-                    </li>
                     <li>Ends at: {{ deadline }}</li>
                 </ul>
             </div>

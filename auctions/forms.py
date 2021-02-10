@@ -22,6 +22,7 @@ class CreateCommentForm(ModelForm):
         fields = ['title', 'content']
 
 class CreateBidForm(ModelForm):
+    amount = forms.DecimalField(widget=forms.NumberInput,label='')
     class Meta:
         model = Bid
         fields =  ['amount']
