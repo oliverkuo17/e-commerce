@@ -1,0 +1,23 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Your watchlist</h2>
+    <div class="row">
+        {% for watching in watchlist %}
+            <div class="col-md-4">
+                <div class='listing-index-container' style="display: flex;">
+                    <li><a href="/listings/{{ watching.id }}" target="_blank">{{ watching.item_name }}</a></li>
+                    {% if watching.current_bid %}
+                        <div style="margin-left: 15px;">current bid: ${{ watching.current_bid }}</div>
+                    {% else %}
+                        <div style="margin-left: 15px;">current bid: ${{ watching.starting_bid }}</div>
+                    {% endif %}
+                </div>
+
+                <p><img src="{{ watching.photo.url }}" width="250px" height="250px"></p>
+                <p>ends at: {{ watching.deadline }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

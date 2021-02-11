@@ -4,7 +4,6 @@
 
     <div class="listing-container">
         <div class="row">
-            <div class="col-1"></div>
             <div class="col-4">
                 <div class="listing-left-top">
                     <h1 clsas="display-4">{{ item_name }}</h1>
@@ -21,7 +20,7 @@
                 </div>
                 <p><img src="{{ photo.url }}" width="420px" height="420px"></p>
             </div>
-            <div class="col">
+            <div class="col-5">
                 <div class="listing-left-top">
                     <h1 clsas="display-4">
                         {% if current_bid %}
@@ -50,6 +49,29 @@
                     <li>Seller: {{ seller }}</li>
                     <li>Ends at: {{ deadline }}</li>
                 </ul>
+            </div>
+            <div class="col-3" style="border-left:1px solid lightgray; padding-left: 8px; ">
+                <h4 style="text-align: center;">Comments</h4>
+                <div>
+                    <ol>
+                        {% for comment in comments %}
+                            <li>
+                                {{ comment.title }}
+                                {{ comment.content }}
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12" style="Overflow :auto">
+                        <form action="#" method="post">
+                            {% csrf_token %}
+                            {{ comment_form.as_p }}
+                            <input type=submit name="comment" value="Add comment" style="float: right; background-color:royalblue ;color: ghostwhite;border:none;">
+                        </form>
+                    </div>
+                </div>
+
             </div>
         </div>
 

@@ -65,25 +65,44 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
+def update_bid(bid, listing):
+    if listing.current_bid is None:
+        if bid.amount > listing.starting_bid:
+            return True
+    else:
+        if bid.amount > listing.current_bid:
+            return True
+    return False
+
+
 def listing_view(request, listing_id):
     try:
         listing = Listing.objects.get(pk=listing_id)
     except Listing.DoesNotExist:
         raise Http404("Listing does not exist")
     if request.method == "POST":
-        watcher = request.user
+        user = request.user
         bid_form = CreateBidForm(request.POST)
+        comment_form = CreateCommentForm(request.POST)
         if 'start_watching' in request.POST:
-            listing.watchers.add(watcher)
+            listing.watchers.add(user)
         elif 'stop_watching' in request.POST:
-            listing.watchers.remove(watcher)
+            listing.watchers.remove(user)
         if 'amount' in request.POST:
             if bid_form.is_valid():
                 bid = bid_form.save(commit=False)
-                bid.user = request.user
-                bid.listing = listing
-                bid.save()
-
+                if update_bid(bid,listing):
+                    bid.user = request.user
+                    bid.listing = listing
+                    bid.save()
+                    listing.current_bid = bid.amount
+                    listing.save()
+        if 'comment' in request.POST:
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.user = user
+                comment.listing = listing
+                comment.save()
         return HttpResponseRedirect(reverse("auctions:listing", args=(listing.id,)))
     return render(request, "auctions/listing.html", {
             "listing": listing,
@@ -96,7 +115,9 @@ def listing_view(request, listing_id):
             "starting_bid": listing.starting_bid,
             "current_bid": listing.current_bid,
             "watchers": listing.watchers,
-            "bid_form": CreateBidForm()
+            "bid_form": CreateBidForm(),
+            "comment_form": CreateCommentForm(),
+            "comments":listing.comments.all()
         })
 
 def create_listing(request):
@@ -115,5 +136,13 @@ def create_listing(request):
         "form": CreateListingForm()
     })
 
+def get_watchlist(request):
+    user = request.user
+    watchlist = user.watchlist.all()
+    return render(request, "auctions/watchlist.html",{
+        "watchlist": watchlist
+    })
 
 
+def add_comment(request):
+    comment_form = CreateCommentForm(request.POST)

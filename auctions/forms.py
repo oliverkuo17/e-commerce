@@ -20,6 +20,10 @@ class CreateCommentForm(ModelForm):
     class Meta:
         model = Comment
         fields = ['title', 'content']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'content': forms.Textarea(attrs={'class': 'form-control'}),
+        }
 
 class CreateBidForm(ModelForm):
     amount = forms.DecimalField(widget=forms.NumberInput,label='')
