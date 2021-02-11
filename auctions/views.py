@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -65,6 +66,7 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
+
 def update_bid(bid, listing):
     if listing.current_bid is None:
         if bid.amount > listing.starting_bid:
@@ -74,7 +76,7 @@ def update_bid(bid, listing):
             return True
     return False
 
-
+@login_required
 def listing_view(request, listing_id):
     try:
         listing = Listing.objects.get(pk=listing_id)
@@ -120,6 +122,7 @@ def listing_view(request, listing_id):
             "comments":listing.comments.all()
         })
 
+@login_required
 def create_listing(request):
     if request.method == "POST":
         form = CreateListingForm(request.POST, request.FILES)
@@ -136,6 +139,7 @@ def create_listing(request):
         "form": CreateListingForm()
     })
 
+@login_required
 def get_watchlist(request):
     user = request.user
     watchlist = user.watchlist.all()
@@ -143,6 +147,6 @@ def get_watchlist(request):
         "watchlist": watchlist
     })
 
-
+@login_required
 def add_comment(request):
     comment_form = CreateCommentForm(request.POST)
