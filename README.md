@@ -1,6 +1,6 @@
 # e-commerce
 
 
-<img src="screenshots/index.jpg">
-<img src="screenshots/listing.jpg">
-<img src="screenshots/watchlist.jpg">
+<img src="screenshots/index.png">
+<img src="screenshots/listing.png">
+<img src="screenshots/watchlist.png">
