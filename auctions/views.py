@@ -76,7 +76,7 @@ def update_bid(bid, listing):
             return True
     return False
 
-@login_required
+@login_required(login_url='/login')
 def listing_view(request, listing_id):
     try:
         listing = Listing.objects.get(pk=listing_id)
