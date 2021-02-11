@@ -11,9 +11,9 @@
                     {% csrf_token %}
                     {% if user != listing.seller %}
                         {% if user not in listing.watchers.all %}
-                            <input type="submit" name="start_watching" value="Add to Watchlist" style="background-color:mediumseagreen;border:none;color:ghostwhite">
+                            <input class="add-to-watch" type="submit" name="start_watching" value="Add to Watchlist">
                         {% else%}
-                            <input type="submit" name="stop_watching" value="Remove from Watchlist" style="background-color:slategrey;border:none;color:ghostwhite">
+                            <input class="remove-from-watch" type="submit" name="stop_watching" value="Remove from Watchlist">
                         {% endif %}
                     {% endif %}
                     </form>
@@ -21,7 +21,7 @@
                 <p><img src="{{ photo.url }}" width="420px" height="420px"></p>
             </div>
             <div class="col-5">
-                <div class="listing-left-top">
+                <div class="listing-mid-top">
                     <h1 clsas="display-4">
                         {% if current_bid %}
                             Current bid: {{ current_bid }} AUD
@@ -34,7 +34,7 @@
                             <form action="#" method="post" style="display: flex;">
                                 {% csrf_token %}
                                 {{ bid_form }}
-                                <input type=submit value="Place bid" style="margin-left: 8px; background-color:royalblue ;color: ghostwhite;border:none;">
+                                <input class="place-bid" type=submit value="Place bid">
                             </form>
                         </div>
                     </div>
@@ -50,8 +50,8 @@
                     <li>Ends at: {{ deadline }}</li>
                 </ul>
             </div>
-            <div class="col-3" style="border-left:1px solid lightgray; padding-left: 8px; ">
-                <h4 style="text-align: center;">Comments</h4>
+            <div class="col-3">
+                <h4>Comments</h4>
                 <div>
                     <ol>
                         {% for comment in comments %}
@@ -67,7 +67,7 @@
                         <form action="#" method="post">
                             {% csrf_token %}
                             {{ comment_form.as_p }}
-                            <input type=submit name="comment" value="Add comment" style="float: right; background-color:royalblue ;color: ghostwhite;border:none;">
+                            <input class="add-comment" type=submit name="comment" value="Add comment">
                         </form>
                     </div>
                 </div>

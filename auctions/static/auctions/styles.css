@@ -1,8 +1,46 @@
 body {
-    padding: 20px;
+    padding: 10px;
 }
 
-.listing-left-top {
-    display:flex,
+/* .listing-left-top {
+    display:flex;
+    text-align:center;
 
+} */
+
+.add-to-watch {
+    background-color:mediumseagreen;
+    border:none;
+    color:ghostwhite;
+    outline:none
+}
+
+.remove-from-watch {
+    background-color:slategrey;
+    border:none;
+    color:ghostwhite;
+    outline:none
+}
+
+.place-bid {
+    margin-left: 8px;
+    background-color:royalblue ;
+    color: ghostwhite;
+    border:none;
+}
+
+.add-comment {
+    float: right;
+    background-color:royalblue ;
+    color: ghostwhite;
+    border:none;
+}
+
+.col-3 {
+    border-left:1px solid lightgray;
+    padding-left: 8px;
+}
+
+.col-3 h4 {
+    text-align: center;
 }
