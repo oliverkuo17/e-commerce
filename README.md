@@ -3,6 +3,6 @@
 
 <img src="screenshots/index.png">
 
-<img src="screenshots/listing.png">
+<img src="screenshots/listing.PNG">
 
-<img src="screenshots/watchlist.png">
+<img src="screenshots/watchlist.PNG">
