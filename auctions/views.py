@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .forms import *
-from .models import Bid, Comment, Listing, User
+from .models import Bid, Comment, Listing, User, CATEGORY_CHOICES
 
 
 def index(request):
@@ -150,3 +150,16 @@ def get_watchlist(request):
 @login_required
 def add_comment(request):
     comment_form = CreateCommentForm(request.POST)
+
+# def category(request, category_name):
+#     categories = list(CATEGORY_CHOICES)
+#     categories = [i[0].replace(" ", "").lower() for i in categories]
+#     category_name = category_name.lower()
+#     if category_name in categories:
+#         return HttpResponseRedirect(reverse("auctions:category", args=(category_name,)))
+#     else:
+#         raise Http404("No such category")
+#     return render(request, "auctions/category.html", {
+#             "category_name": category_name,
+#             "active_listings": Listing.objects.filter(active=True)
+#         })

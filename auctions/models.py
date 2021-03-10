@@ -10,8 +10,7 @@ def user_directory_path(instance, filename):
 class User(AbstractUser):
     pass
 
-class Listing(models.Model):
-    CATEGORY_CHOICES = (
+CATEGORY_CHOICES = (
         ("Electronics", "Electronics"),
         ("Motors", "Motors"),
         ("Home & Garden", "Home & Garden" ),
@@ -24,6 +23,7 @@ class Listing(models.Model):
         ("Others", "Others")
     )
 
+class Listing(models.Model):
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
     item_name = models.CharField(max_length=64)
     description = models.TextField(max_length=2048)

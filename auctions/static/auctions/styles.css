@@ -27,7 +27,14 @@ body {
     background-color:royalblue ;
     color: ghostwhite;
     border:none;
+    outline:none;
 }
+
+.place-bid:hover {
+    outline:gray solid 1px;
+    background-color:white;
+    color:indianred;
+  }
 
 .add-comment {
     float: right;
